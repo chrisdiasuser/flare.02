@@ -6,6 +6,7 @@ import { Flame, ShieldCheck, Radio, Camera, CalendarRange, Users, Cpu, BarChart3
 import { useAuth } from "@/context/AuthContext";
 
 export default function Index() {
+  const { isAuthenticated } = useAuth();
   return (
     <div className="">
       {/* Hero */}
@@ -23,8 +24,8 @@ export default function Index() {
             Multi‑role system with facial recognition, Bluetooth beacon proximity, and real‑time analytics. Built for students, HR, and admins.
           </p>
           <div className="mt-8 flex flex-col sm:flex-row gap-3">
-            <Link to="/dashboard"><Button size="lg">Open Dashboard</Button></Link>
-            <Link to="/login"><Button size="lg" variant="outline">Sign In</Button></Link>
+            <Link to={isAuthenticated ? "/dashboard" : "/login"}><Button size="lg">{isAuthenticated ? "Open Dashboard" : "Sign In to Continue"}</Button></Link>
+            {!isAuthenticated && <Link to="/login"><Button size="lg" variant="outline">Sign In</Button></Link>}
           </div>
         </div>
       </section>
