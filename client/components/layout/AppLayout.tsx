@@ -46,7 +46,6 @@ export default function AppLayout() {
           <div className="flex items-center gap-4">
             <a href="#features" className="hover:text-foreground">Features</a>
             <a href="#roles" className="hover:text-foreground">Roles</a>
-            {isAuthenticated && <Link to="/dashboard" className="hover:text-foreground">Dashboard</Link>}
           </div>
         </div>
       </footer>
