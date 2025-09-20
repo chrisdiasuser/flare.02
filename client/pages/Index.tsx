@@ -53,21 +53,21 @@ export default function Index() {
             <RoleCard
               title="Student"
               points={["Join systems with code", "Camera + beacon check‑in", "Attendance history", "Manage profile & reference photo"]}
-              cta={{ label: "Try Dashboard", to: "/dashboard" }}
+              cta={{ label: "Open Student", to: "/student" }}
             />
           </TabsContent>
           <TabsContent value="hr">
             <RoleCard
-              title="HR"
+              title="Staff"
               points={["Create systems", "Manage beacons & lectures", "Approve members", "Attendance reports"]}
-              cta={{ label: "Manage Now", to: "/dashboard" }}
+              cta={{ label: "Open Staff", to: "/staff" }}
             />
           </TabsContent>
           <TabsContent value="admin">
             <RoleCard
               title="Admin"
               points={["Full control", "System‑wide settings", "Advanced analytics", "Member administration"]}
-              cta={{ label: "Open Admin", to: "/dashboard" }}
+              cta={{ label: "Open Admin", to: "/admin" }}
             />
           </TabsContent>
         </Tabs>

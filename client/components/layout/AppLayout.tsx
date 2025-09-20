@@ -34,7 +34,9 @@ export default function AppLayout() {
           </Link>
           <nav className="hidden md:flex items-center gap-1">
             <NavItem to="/">Home</NavItem>
-            <NavItem to="/dashboard">Dashboard</NavItem>
+            <NavItem to="/student">Student</NavItem>
+            <NavItem to="/staff">Staff</NavItem>
+            <NavItem to="/admin">Admin</NavItem>
             <NavItem to="/login">Login</NavItem>
           </nav>
           <div className="md:hidden flex items-center gap-2">
