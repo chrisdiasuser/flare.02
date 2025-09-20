@@ -8,7 +8,6 @@ export default function Index() {
       {/* Hero */}
       <section className="relative overflow-hidden">
         <div className="absolute inset-0 -z-10 bg-gradient-to-b from-background via-background to-background" />
-        <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-[1200px] h-[1200px] rounded-full bg-primary/20 blur-3xl" />
         <div className="container mx-auto flex flex-col items-center text-center py-16 md:py-24">
           <div className="inline-flex items-center gap-2 rounded-full border bg-background/60 px-3 py-1 text-xs text-muted-foreground backdrop-blur">
             <Flame className="h-3.5 w-3.5 text-primary" /> F.L.A.R.E • Facial + Location Attendance
