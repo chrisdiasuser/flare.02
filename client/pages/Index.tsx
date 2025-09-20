@@ -19,7 +19,7 @@ export default function Index() {
             Multi‑role system with facial recognition, Bluetooth beacon proximity, and real‑time analytics. Built for students, staff, and admins.
           </p>
           <div className="mt-8 flex flex-col sm:flex-row gap-3">
-            <Link to="/dashboard"><Button size="lg">Open Dashboard</Button></Link>
+            <Link to="/login"><Button size="lg">Sign In</Button></Link>
           </div>
         </div>
       </section>
