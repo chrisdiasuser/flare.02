@@ -34,18 +34,7 @@ export default function AppLayout() {
             </span>
             <span className="text-lg">F.L.A.R.E</span>
           </Link>
-          <nav className="hidden md:flex items-center gap-1">
-            <NavItem to="/">Home</NavItem>
-            {isAuthenticated && (
-              <>
-                <NavItem to="/student">Student</NavItem>
-                <NavItem to="/staff">Staff</NavItem>
-                <NavItem to="/admin">Admin</NavItem>
-                <NavItem to="/dashboard">Dashboard</NavItem>
-              </>
-            )}
-            {!isAuthenticated && <NavItem to="/login">Login</NavItem>}
-          </nav>
+          <nav className="hidden md:flex items-center gap-1" />
           <div className="md:hidden flex items-center gap-2">
             {isAuthenticated ? (
               <Button variant="ghost" size="sm" onClick={logout}>Logout</Button>
