@@ -23,6 +23,7 @@ function NavItem({ to, children }: { to: string; children: React.ReactNode }) {
 }
 
 export default function AppLayout() {
+  const { isAuthenticated, logout } = useAuth();
   return (
     <div className="min-h-screen flex flex-col">
       <header className="sticky top-0 z-40 w-full border-b bg-background/80 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -35,18 +36,24 @@ export default function AppLayout() {
           </Link>
           <nav className="hidden md:flex items-center gap-1">
             <NavItem to="/">Home</NavItem>
-            <NavItem to="/student">Student</NavItem>
-            <NavItem to="/staff">Staff</NavItem>
-            <NavItem to="/admin">Admin</NavItem>
-            <NavItem to="/login">Login</NavItem>
+            {isAuthenticated && (
+              <>
+                <NavItem to="/student">Student</NavItem>
+                <NavItem to="/staff">Staff</NavItem>
+                <NavItem to="/admin">Admin</NavItem>
+                <NavItem to="/dashboard">Dashboard</NavItem>
+              </>
+            )}
+            {!isAuthenticated && <NavItem to="/login">Login</NavItem>}
           </nav>
           <div className="md:hidden flex items-center gap-2">
-            <Link to="/dashboard" aria-label="Dashboard">
-              <Button variant="ghost" size="icon"><LayoutDashboard /></Button>
-            </Link>
-            <Link to="/login" aria-label="Login">
-              <Button variant="default" size="icon"><LogIn /></Button>
-            </Link>
+            {isAuthenticated ? (
+              <Button variant="ghost" size="sm" onClick={logout}>Logout</Button>
+            ) : (
+              <Link to="/login" aria-label="Login">
+                <Button variant="default" size="icon"><LogIn /></Button>
+              </Link>
+            )}
           </div>
         </div>
       </header>
@@ -59,7 +66,7 @@ export default function AppLayout() {
           <div className="flex items-center gap-4">
             <a href="#features" className="hover:text-foreground">Features</a>
             <a href="#roles" className="hover:text-foreground">Roles</a>
-            <Link to="/dashboard" className="hover:text-foreground">Dashboard</Link>
+            {isAuthenticated && <Link to="/dashboard" className="hover:text-foreground">Dashboard</Link>}
           </div>
         </div>
       </footer>
