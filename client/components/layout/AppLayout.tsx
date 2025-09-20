@@ -35,15 +35,6 @@ export default function AppLayout() {
             <span className="text-lg">F.L.A.R.E</span>
           </Link>
           <nav className="hidden md:flex items-center gap-1" />
-          <div className="md:hidden flex items-center gap-2">
-            {isAuthenticated ? (
-              <Button variant="ghost" size="sm" onClick={logout}>Logout</Button>
-            ) : (
-              <Link to="/login" aria-label="Login">
-                <Button variant="default" size="icon"><LogIn /></Button>
-              </Link>
-            )}
-          </div>
         </div>
       </header>
       <main className="flex-1">
