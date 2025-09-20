@@ -28,13 +28,18 @@ export default function Login() {
         body: JSON.stringify({ username, password }),
       });
       if (!res.ok) throw new Error("Invalid credentials");
-      login();
+      login({ username, roles: ["student"] });
       navigate(from, { replace: true });
     } catch (err: any) {
       setError(err.message || "Login failed");
     } finally {
       setLoading(false);
     }
+  };
+
+  const demoLogin = () => {
+    login({ username: "demo@flare.app", roles: ["admin", "staff", "student"] });
+    navigate(from, { replace: true });
   };
 
   return (
