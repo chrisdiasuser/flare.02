@@ -1,32 +1,45 @@
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
 
+export interface User {
+  username: string;
+  roles: ("admin" | "staff" | "student")[];
+}
+
 interface AuthContextValue {
+  user: User | null;
   isAuthenticated: boolean;
-  login: () => void;
+  login: (user: User) => void;
   logout: () => void;
 }
 
 const AuthContext = createContext<AuthContextValue | undefined>(undefined);
 
+const STORAGE_KEY = "flare_user";
+
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [isAuthenticated, setAuthenticated] = useState<boolean>(false);
+  const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
-    const v = localStorage.getItem("flare_auth");
-    setAuthenticated(v === "true");
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (raw) setUser(JSON.parse(raw));
+    } catch {}
   }, []);
 
-  const login = () => {
-    setAuthenticated(true);
-    localStorage.setItem("flare_auth", "true");
+  const login = (u: User) => {
+    setUser(u);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(u));
   };
 
   const logout = () => {
-    setAuthenticated(false);
-    localStorage.removeItem("flare_auth");
+    setUser(null);
+    localStorage.removeItem(STORAGE_KEY);
   };
 
-  const value = useMemo(() => ({ isAuthenticated, login, logout }), [isAuthenticated]);
+  const value = useMemo(
+    () => ({ user, isAuthenticated: !!user, login, logout }),
+    [user],
+  );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
