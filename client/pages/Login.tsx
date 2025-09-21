@@ -1,5 +1,11 @@
 import { useState } from "react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
@@ -43,21 +49,27 @@ export default function Login() {
   };
 
   return (
-    <div className={cn(
-      "min-h-[calc(100vh-4rem)] flex items-center justify-center", // header is 64px
-      "bg-gradient-to-br from-[#0f172a] via-[#0b225f] to-[#1d4ed8]",
-      "px-4 py-10"
-    )}>
+    <div
+      className={cn(
+        "min-h-[calc(100vh-4rem)] flex items-center justify-center", // header is 64px
+        "bg-gradient-to-br from-[#0f172a] via-[#0b225f] to-[#1d4ed8]",
+        "px-4 py-10",
+      )}
+    >
       <div className="w-full max-w-md">
         <Card className="backdrop-blur border-white/20 bg-white/10 text-white shadow-2xl">
           <CardHeader>
             <CardTitle className="text-2xl">Sign in to F.L.A.R.E</CardTitle>
-            <CardDescription className="text-white/70">Facial Recognition & Location-based Attendance</CardDescription>
+            <CardDescription className="text-white/70">
+              Facial Recognition & Location-based Attendance
+            </CardDescription>
           </CardHeader>
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="username" className="text-white">Username</Label>
+                <Label htmlFor="username" className="text-white">
+                  Username
+                </Label>
                 <Input
                   id="username"
                   value={username}
@@ -69,7 +81,9 @@ export default function Login() {
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="password" className="text-white">Password</Label>
+                <Label htmlFor="password" className="text-white">
+                  Password
+                </Label>
                 <Input
                   id="password"
                   type="password"
@@ -86,7 +100,11 @@ export default function Login() {
                   {error}
                 </div>
               )}
-              <Button type="submit" className="w-full bg-white text-[#0b225f] hover:bg-white/90" disabled={loading}>
+              <Button
+                type="submit"
+                className="w-full bg-white text-[#0b225f] hover:bg-white/90"
+                disabled={loading}
+              >
                 {loading ? "Signing in…" : "Sign In"}
               </Button>
             </form>
@@ -95,13 +113,21 @@ export default function Login() {
               <span className="text-xs">OR</span>
               <div className="h-px flex-1 bg-white/20" />
             </div>
-            <Button type="button" variant="secondary" className="w-full" onClick={demoLogin}>
+            <Button
+              type="button"
+              variant="secondary"
+              className="w-full"
+              onClick={demoLogin}
+            >
               Continue as Demo (Admin + Staff + Student)
             </Button>
           </CardContent>
         </Card>
         <p className="mt-6 text-center text-white/80 text-sm">
-          Don’t have an account? <a className="underline underline-offset-4" href="#">Request access</a>
+          Don’t have an account?{" "}
+          <a className="underline underline-offset-4" href="#">
+            Request access
+          </a>
         </p>
       </div>
     </div>
