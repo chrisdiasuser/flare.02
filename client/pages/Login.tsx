@@ -90,8 +90,14 @@ export default function Login() {
                 {loading ? "Signing in…" : "Sign In"}
               </Button>
             </form>
-            
-            
+            <div className="my-4 flex items-center gap-3 text-white/70">
+              <div className="h-px flex-1 bg-white/20" />
+              <span className="text-xs">OR</span>
+              <div className="h-px flex-1 bg-white/20" />
+            </div>
+            <Button type="button" variant="secondary" className="w-full" onClick={demoLogin}>
+              Continue as Demo (Admin + Staff + Student)
+            </Button>
           </CardContent>
         </Card>
         <p className="mt-6 text-center text-white/80 text-sm">
