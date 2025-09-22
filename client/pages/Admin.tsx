@@ -222,7 +222,7 @@ export default function Admin() {
 
         <TabsContent value="members">
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            <Feature title="Approve Requests" desc="Handle join requests" action={<Button>Open Queue</Button>} />
+            <Feature title="Approve Staff Requests" desc="Admins approve staff join requests" action={<Button>Open Queue</Button>} />
             <Feature title="Set Roles" desc="Promote/demote members" action={<Button variant="secondary">Manage Roles</Button>} />
             <Feature title="Remove Members" desc="Remove from system" action={<Button variant="outline">Remove</Button>} />
           </div>
