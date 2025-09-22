@@ -31,7 +31,11 @@ if (typeof window !== "undefined") {
               cb(entries, observer);
             } catch (err: any) {
               // swallow the benign ResizeObserver loop error
-              if (err && typeof err.message === "string" && err.message.includes("ResizeObserver loop")) {
+              if (
+                err &&
+                typeof err.message === "string" &&
+                err.message.includes("ResizeObserver loop")
+              ) {
                 return;
               }
               // rethrow any other errors
@@ -69,9 +73,30 @@ const App = () => (
           <Routes>
             <Route element={<AppLayout />}>
               <Route path="/" element={<Index />} />
-              <Route path="/admin" element={<ProtectedRoute><Admin /></ProtectedRoute>} />
-              <Route path="/staff" element={<ProtectedRoute><Staff /></ProtectedRoute>} />
-              <Route path="/student" element={<ProtectedRoute><Student /></ProtectedRoute>} />
+              <Route
+                path="/admin"
+                element={
+                  <ProtectedRoute>
+                    <Admin />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/staff"
+                element={
+                  <ProtectedRoute>
+                    <Staff />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/student"
+                element={
+                  <ProtectedRoute>
+                    <Student />
+                  </ProtectedRoute>
+                }
+              />
               <Route path="*" element={<NotFound />} />
             </Route>
             <Route path="/login" element={<Login />} />

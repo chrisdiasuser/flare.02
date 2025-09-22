@@ -12,27 +12,56 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/context/AuthContext";
 import { useLocation, useNavigate } from "react-router-dom";
-import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
-function CreateAccountDialog({ onCreated }: { onCreated: (username: string, role: "admin" | "staff" | "student") => void }) {
+function CreateAccountDialog({
+  onCreated,
+}: {
+  onCreated: (username: string, role: "admin" | "staff" | "student") => void;
+}) {
   const [open, setOpen] = useState(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [confirm, setConfirm] = useState("");
   const [role, setRole] = useState<"admin" | "staff" | "student">("student");
   const [error, setError] = useState<string | null>(null);
-  const canSubmit = useMemo(() => username.trim().length >= 3 && password.length >= 6 && confirm === password, [username, password, confirm]);
+  const canSubmit = useMemo(
+    () =>
+      username.trim().length >= 3 &&
+      password.length >= 6 &&
+      confirm === password,
+    [username, password, confirm],
+  );
 
   const USERS_KEY = "flare_users";
   const readUsers = () => {
     try {
-      return JSON.parse(localStorage.getItem(USERS_KEY) || "[]") as { username: string; role: "admin" | "staff" | "student" }[];
+      return JSON.parse(localStorage.getItem(USERS_KEY) || "[]") as {
+        username: string;
+        role: "admin" | "staff" | "student";
+      }[];
     } catch {
       return [] as { username: string; role: "admin" | "staff" | "student" }[];
     }
   };
-  const adminCount = useMemo(() => readUsers().filter((u) => u.role === "admin").length, [open]);
+  const adminCount = useMemo(
+    () => readUsers().filter((u) => u.role === "admin").length,
+    [open],
+  );
   const adminLimitReached = adminCount >= 3;
 
   const submit = (e: React.FormEvent) => {
@@ -56,7 +85,12 @@ function CreateAccountDialog({ onCreated }: { onCreated: (username: string, role
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="link" className="px-0 text-white underline underline-offset-4">Create account</Button>
+        <Button
+          variant="link"
+          className="px-0 text-white underline underline-offset-4"
+        >
+          Create account
+        </Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
@@ -65,16 +99,36 @@ function CreateAccountDialog({ onCreated }: { onCreated: (username: string, role
         <form onSubmit={submit} className="space-y-4">
           <div className="space-y-2">
             <Label htmlFor="new-username">Username</Label>
-            <Input id="new-username" value={username} onChange={(e) => setUsername(e.target.value)} placeholder="jane.doe" autoComplete="username" />
+            <Input
+              id="new-username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              placeholder="jane.doe"
+              autoComplete="username"
+            />
           </div>
           <div className="grid gap-4 sm:grid-cols-2">
             <div className="space-y-2">
               <Label htmlFor="new-password">Password</Label>
-              <Input id="new-password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="••••••••" autoComplete="new-password" />
+              <Input
+                id="new-password"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="••••••••"
+                autoComplete="new-password"
+              />
             </div>
             <div className="space-y-2">
               <Label htmlFor="confirm-password">Confirm password</Label>
-              <Input id="confirm-password" type="password" value={confirm} onChange={(e) => setConfirm(e.target.value)} placeholder="••••••••" autoComplete="new-password" />
+              <Input
+                id="confirm-password"
+                type="password"
+                value={confirm}
+                onChange={(e) => setConfirm(e.target.value)}
+                placeholder="••••••••"
+                autoComplete="new-password"
+              />
             </div>
           </div>
           <div className="space-y-2">
@@ -86,10 +140,14 @@ function CreateAccountDialog({ onCreated }: { onCreated: (username: string, role
               <SelectContent>
                 <SelectItem value="student">Student</SelectItem>
                 <SelectItem value="staff">Staff</SelectItem>
-                <SelectItem value="admin" disabled={adminLimitReached}>Admin</SelectItem>
+                <SelectItem value="admin" disabled={adminLimitReached}>
+                  Admin
+                </SelectItem>
               </SelectContent>
             </Select>
-            <p className="text-xs text-muted-foreground">Admin seats available: {Math.max(0, 3 - adminCount)}</p>
+            <p className="text-xs text-muted-foreground">
+              Admin seats available: {Math.max(0, 3 - adminCount)}
+            </p>
           </div>
           {error && (
             <div className="text-sm text-red-600 bg-red-50 border border-red-200 rounded-md p-2">
@@ -97,7 +155,9 @@ function CreateAccountDialog({ onCreated }: { onCreated: (username: string, role
             </div>
           )}
           <DialogFooter>
-            <Button type="submit" disabled={!canSubmit}>Create account</Button>
+            <Button type="submit" disabled={!canSubmit}>
+              Create account
+            </Button>
           </DialogFooter>
         </form>
       </DialogContent>
@@ -135,8 +195,10 @@ export default function Login() {
     }
   };
 
-
-  const handleCreated = (newUsername: string, role: "admin" | "staff" | "student") => {
+  const handleCreated = (
+    newUsername: string,
+    role: "admin" | "staff" | "student",
+  ) => {
     login({ username: newUsername, roles: [role] });
     if (role === "admin") navigate("/admin", { replace: true });
     else if (role === "staff") navigate("/staff", { replace: true });
@@ -210,7 +272,8 @@ export default function Login() {
             </div>
             <div className="grid gap-3">
               <p className="text-center text-white/90 text-sm">
-                Don’t have an account? <CreateAccountDialog onCreated={handleCreated} />
+                Don’t have an account?{" "}
+                <CreateAccountDialog onCreated={handleCreated} />
               </p>
             </div>
           </CardContent>
