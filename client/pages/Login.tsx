@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import {
   Card,
   CardContent,
@@ -12,6 +12,79 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/context/AuthContext";
 import { useLocation, useNavigate } from "react-router-dom";
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+
+function CreateAccountDialog({ onCreated }: { onCreated: (username: string, role: "admin" | "staff" | "student") => void }) {
+  const [open, setOpen] = useState(false);
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirm, setConfirm] = useState("");
+  const [role, setRole] = useState<"admin" | "staff" | "student">("student");
+  const [error, setError] = useState<string | null>(null);
+  const canSubmit = useMemo(() => username.trim().length >= 3 && password.length >= 6 && confirm === password, [username, password, confirm]);
+
+  const submit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setError(null);
+    if (!canSubmit) {
+      setError("Please complete all fields correctly");
+      return;
+    }
+    onCreated(username.trim(), role);
+    setOpen(false);
+  };
+
+  return (
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogTrigger asChild>
+        <Button variant="link" className="px-0 text-white underline underline-offset-4">Create account</Button>
+      </DialogTrigger>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Create your account</DialogTitle>
+        </DialogHeader>
+        <form onSubmit={submit} className="space-y-4">
+          <div className="space-y-2">
+            <Label htmlFor="new-username">Username</Label>
+            <Input id="new-username" value={username} onChange={(e) => setUsername(e.target.value)} placeholder="jane.doe" autoComplete="username" />
+          </div>
+          <div className="grid gap-4 sm:grid-cols-2">
+            <div className="space-y-2">
+              <Label htmlFor="new-password">Password</Label>
+              <Input id="new-password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="••••••••" autoComplete="new-password" />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="confirm-password">Confirm password</Label>
+              <Input id="confirm-password" type="password" value={confirm} onChange={(e) => setConfirm(e.target.value)} placeholder="••••••••" autoComplete="new-password" />
+            </div>
+          </div>
+          <div className="space-y-2">
+            <Label>Role</Label>
+            <Select value={role} onValueChange={(v) => setRole(v as any)}>
+              <SelectTrigger>
+                <SelectValue placeholder="Select a role" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="student">Student</SelectItem>
+                <SelectItem value="staff">Staff</SelectItem>
+                <SelectItem value="admin">Admin</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+          {error && (
+            <div className="text-sm text-red-600 bg-red-50 border border-red-200 rounded-md p-2">
+              {error}
+            </div>
+          )}
+          <DialogFooter>
+            <Button type="submit" disabled={!canSubmit}>Create account</Button>
+          </DialogFooter>
+        </form>
+      </DialogContent>
+    </Dialog>
+  );
+}
 
 export default function Login() {
   const [username, setUsername] = useState("");
@@ -48,10 +121,17 @@ export default function Login() {
     navigate(from, { replace: true });
   };
 
+  const handleCreated = (newUsername: string, role: "admin" | "staff" | "student") => {
+    login({ username: newUsername, roles: [role] });
+    if (role === "admin") navigate("/admin", { replace: true });
+    else if (role === "staff") navigate("/staff", { replace: true });
+    else navigate(from, { replace: true });
+  };
+
   return (
     <div
       className={cn(
-        "min-h-[calc(100vh-4rem)] flex items-center justify-center", // header is 64px
+        "min-h-[calc(100vh-4rem)] flex items-center justify-center",
         "bg-gradient-to-br from-[#0f172a] via-[#0b225f] to-[#1d4ed8]",
         "px-4 py-10",
       )}
@@ -113,22 +193,21 @@ export default function Login() {
               <span className="text-xs">OR</span>
               <div className="h-px flex-1 bg-white/20" />
             </div>
-            <Button
-              type="button"
-              variant="secondary"
-              className="w-full"
-              onClick={demoLogin}
-            >
-              Continue as Demo (Admin + Staff + Student)
-            </Button>
+            <div className="grid gap-3">
+              <Button
+                type="button"
+                variant="secondary"
+                className="w-full"
+                onClick={demoLogin}
+              >
+                Continue as Demo (Admin + Staff + Student)
+              </Button>
+              <p className="text-center text-white/90 text-sm">
+                Don’t have an account? <CreateAccountDialog onCreated={handleCreated} />
+              </p>
+            </div>
           </CardContent>
         </Card>
-        <p className="mt-6 text-center text-white/80 text-sm">
-          Don’t have an account?{" "}
-          <a className="underline underline-offset-4" href="#">
-            Request access
-          </a>
-        </p>
       </div>
     </div>
   );
