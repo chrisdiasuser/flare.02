@@ -24,6 +24,17 @@ function CreateAccountDialog({ onCreated }: { onCreated: (username: string, role
   const [error, setError] = useState<string | null>(null);
   const canSubmit = useMemo(() => username.trim().length >= 3 && password.length >= 6 && confirm === password, [username, password, confirm]);
 
+  const USERS_KEY = "flare_users";
+  const readUsers = () => {
+    try {
+      return JSON.parse(localStorage.getItem(USERS_KEY) || "[]") as { username: string; role: "admin" | "staff" | "student" }[];
+    } catch {
+      return [] as { username: string; role: "admin" | "staff" | "student" }[];
+    }
+  };
+  const adminCount = useMemo(() => readUsers().filter((u) => u.role === "admin").length, [open]);
+  const adminLimitReached = adminCount >= 3;
+
   const submit = (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
@@ -31,6 +42,13 @@ function CreateAccountDialog({ onCreated }: { onCreated: (username: string, role
       setError("Please complete all fields correctly");
       return;
     }
+    if (role === "admin" && adminLimitReached) {
+      setError("Only 3 admins can be created");
+      return;
+    }
+    const users = readUsers();
+    users.push({ username: username.trim(), role });
+    localStorage.setItem(USERS_KEY, JSON.stringify(users));
     onCreated(username.trim(), role);
     setOpen(false);
   };
@@ -68,9 +86,10 @@ function CreateAccountDialog({ onCreated }: { onCreated: (username: string, role
               <SelectContent>
                 <SelectItem value="student">Student</SelectItem>
                 <SelectItem value="staff">Staff</SelectItem>
-                <SelectItem value="admin">Admin</SelectItem>
+                <SelectItem value="admin" disabled={adminLimitReached}>Admin</SelectItem>
               </SelectContent>
             </Select>
+            <p className="text-xs text-muted-foreground">Admin seats available: {Math.max(0, 3 - adminCount)}</p>
           </div>
           {error && (
             <div className="text-sm text-red-600 bg-red-50 border border-red-200 rounded-md p-2">
