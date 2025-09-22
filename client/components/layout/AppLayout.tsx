@@ -25,27 +25,27 @@ function NavItem({ to, children }: { to: string; children: React.ReactNode }) {
 export default function AppLayout() {
   const { isAuthenticated, logout } = useAuth();
   return (
-    <div className="min-h-screen flex flex-col">
-      <header className="sticky top-0 z-40 w-full border-b bg-background/80 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <div className="min-h-screen flex flex-col bg-gradient-to-br from-[#0f172a] via-[#0b225f] to-[#1d4ed8] transition-colors duration-300">
+      <header className="sticky top-0 z-40 w-full border-b border-white/10 bg-blue-900/30 backdrop-blur supports-[backdrop-filter]:bg-blue-900/25 transition-colors duration-300">
         <div className="container mx-auto flex h-16 items-center justify-between">
-          <Link to="/" className="flex items-center gap-2 font-bold tracking-tight">
-            <span className="inline-flex h-8 w-8 items-center justify-center rounded-md bg-gradient-to-br from-primary to-indigo-500 text-primary-foreground">
+          <Link to="/" className="flex items-center gap-2 font-bold tracking-tight text-white transition-opacity hover:opacity-90">
+            <span className="inline-flex h-8 w-8 items-center justify-center rounded-md bg-gradient-to-br from-sky-400 to-indigo-500 text-white shadow">
               <Flame className="h-5 w-5" />
             </span>
-            <span className="text-lg">F.L.A.R.E</span>
+            <span className="text-lg text-white">F.L.A.R.E</span>
           </Link>
           <nav className="hidden md:flex items-center gap-1" />
         </div>
       </header>
-      <main className="flex-1">
+      <main className="flex-1 transition-opacity duration-300">
         <Outlet />
       </main>
-      <footer className="border-t bg-background">
+      <footer className="border-t border-white/10 bg-blue-950/30 transition-colors duration-300 text-white/80">
         <div className="container mx-auto py-8 text-sm text-muted-foreground flex items-center justify-between gap-4">
           <p>© {new Date().getFullYear()} F.L.A.R.E Attendance. All rights reserved.</p>
           <div className="flex items-center gap-4">
-            <a href="#features" className="hover:text-foreground">Features</a>
-            <a href="#roles" className="hover:text-foreground">Roles</a>
+            <a href="#features" className="hover:text-white">Features</a>
+            <a href="#roles" className="hover:text-white">Roles</a>
           </div>
         </div>
       </footer>
