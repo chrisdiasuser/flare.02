@@ -16,6 +16,22 @@ import AppLayout from "@/components/layout/AppLayout";
 import { AuthProvider } from "@/context/AuthContext";
 import ProtectedRoute from "@/components/routing/ProtectedRoute";
 
+// Suppress known benign ResizeObserver errors in some Chromium versions
+// This prevents the console from being flooded with "ResizeObserver loop completed with undelivered notifications." messages
+if (typeof window !== "undefined") {
+  window.addEventListener("error", (event: ErrorEvent) => {
+    const msg = String(event?.message || "");
+    if (msg.includes("ResizeObserver loop")) {
+      // Stop this error from reaching the console/other global handlers
+      try {
+        event.stopImmediatePropagation();
+      } catch (e) {
+        // ignore
+      }
+    }
+  });
+}
+
 const queryClient = new QueryClient();
 
 const App = () => (
