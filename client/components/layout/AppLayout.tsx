@@ -25,7 +25,7 @@ function NavItem({ to, children }: { to: string; children: React.ReactNode }) {
 export default function AppLayout() {
   const { isAuthenticated, logout } = useAuth();
   return (
-    <div className="min-h-screen flex flex-col bg-gradient-to-br from-[#0f172a] via-[#0b225f] to-[#1d4ed8] transition-colors duration-300">
+    <div className="min-h-screen flex flex-col bg-gradient-to-br from-[#0f172a] via-[#0b225f] to-[#1d4ed8] text-white transition-colors duration-300 dark">
       <header className="sticky top-0 z-40 w-full border-b border-white/10 bg-blue-900/30 backdrop-blur supports-[backdrop-filter]:bg-blue-900/25 transition-colors duration-300">
         <div className="container mx-auto flex h-16 items-center justify-between">
           <Link to="/" className="flex items-center gap-2 font-bold tracking-tight text-white transition-opacity hover:opacity-90">
