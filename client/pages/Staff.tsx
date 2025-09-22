@@ -234,8 +234,8 @@ export default function Staff() {
         <TabsContent value="members">
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             <Feature
-              title="Approve Requests"
-              desc="Accept or reject joins"
+              title="Approve Student Requests"
+              desc="Staff approve student join requests"
               action={<Button>Open Queue</Button>}
             />
             <Feature
