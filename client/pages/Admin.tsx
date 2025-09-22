@@ -192,7 +192,6 @@ export default function Admin() {
           <TabsTrigger value="beacons">Beacons</TabsTrigger>
           <TabsTrigger value="lectures">Lectures</TabsTrigger>
           <TabsTrigger value="members">Members</TabsTrigger>
-          <TabsTrigger value="analytics">Analytics</TabsTrigger>
           <TabsTrigger value="settings">Settings</TabsTrigger>
         </TabsList>
 
