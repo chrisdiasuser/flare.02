@@ -16,20 +16,45 @@ import AppLayout from "@/components/layout/AppLayout";
 import { AuthProvider } from "@/context/AuthContext";
 import ProtectedRoute from "@/components/routing/ProtectedRoute";
 
-// Suppress known benign ResizeObserver errors in some Chromium versions
-// This prevents the console from being flooded with "ResizeObserver loop completed with undelivered notifications." messages
+// Wrap ResizeObserver to safely swallow known benign "ResizeObserver loop" errors
+// This avoids a noisy console error in some Chromium builds while keeping normal behavior intact.
 if (typeof window !== "undefined") {
-  window.addEventListener("error", (event: ErrorEvent) => {
-    const msg = String(event?.message || "");
-    if (msg.includes("ResizeObserver loop")) {
-      // Stop this error from reaching the console/other global handlers
-      try {
-        event.stopImmediatePropagation();
-      } catch (e) {
-        // ignore
+  try {
+    const _RO = (window as any).ResizeObserver;
+    if (_RO) {
+      class SafeResizeObserver {
+        private _inner: any;
+        constructor(cb: ResizeObserverCallback) {
+          const wrapped: ResizeObserverCallback = (entries, observer) => {
+            try {
+              // execute the original callback
+              cb(entries, observer);
+            } catch (err: any) {
+              // swallow the benign ResizeObserver loop error
+              if (err && typeof err.message === "string" && err.message.includes("ResizeObserver loop")) {
+                return;
+              }
+              // rethrow any other errors
+              throw err;
+            }
+          };
+          this._inner = new _RO(wrapped);
+        }
+        observe(target: Element, options?: ResizeObserverOptions) {
+          return this._inner.observe(target, options);
+        }
+        unobserve(target: Element) {
+          return this._inner.unobserve(target);
+        }
+        disconnect() {
+          return this._inner.disconnect();
+        }
       }
+      (window as any).ResizeObserver = SafeResizeObserver;
     }
-  });
+  } catch (e) {
+    // fallback: no-op
+  }
 }
 
 const queryClient = new QueryClient();
