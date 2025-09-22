@@ -116,10 +116,6 @@ export default function Login() {
     }
   };
 
-  const demoLogin = () => {
-    login({ username: "demo@flare.app", roles: ["admin", "staff", "student"] });
-    navigate(from, { replace: true });
-  };
 
   const handleCreated = (newUsername: string, role: "admin" | "staff" | "student") => {
     login({ username: newUsername, roles: [role] });
@@ -194,14 +190,6 @@ export default function Login() {
               <div className="h-px flex-1 bg-white/20" />
             </div>
             <div className="grid gap-3">
-              <Button
-                type="button"
-                variant="secondary"
-                className="w-full"
-                onClick={demoLogin}
-              >
-                Continue as Demo (Admin + Staff + Student)
-              </Button>
               <p className="text-center text-white/90 text-sm">
                 Don’t have an account? <CreateAccountDialog onCreated={handleCreated} />
               </p>
