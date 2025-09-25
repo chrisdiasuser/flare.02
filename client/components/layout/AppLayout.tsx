@@ -1,5 +1,5 @@
-import { Link, NavLink, Outlet, useLocation } from "react-router-dom";
-import { Flame, LayoutDashboard, LogIn } from "lucide-react";
+import { Link, NavLink, Outlet, useLocation, useNavigate } from "react-router-dom";
+import { Flame, LayoutDashboard, LogIn, LogOut } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/context/AuthContext";
@@ -28,6 +28,7 @@ function NavItem({ to, children }: { to: string; children: React.ReactNode }) {
 
 export default function AppLayout() {
   const { isAuthenticated, logout } = useAuth();
+  const navigate = useNavigate();
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-br from-[#0f172a] via-[#0b225f] to-[#1d4ed8] text-white transition-colors duration-300 dark">
       <header className="sticky top-0 z-40 w-full border-b border-white/10 bg-blue-900/30 backdrop-blur supports-[backdrop-filter]:bg-blue-900/25 transition-colors duration-300">
@@ -41,7 +42,28 @@ export default function AppLayout() {
             </span>
             <span className="text-lg text-white">F.L.A.R.E</span>
           </Link>
-          <nav className="hidden md:flex items-center gap-1" />
+          <nav className="flex items-center gap-2">
+            {isAuthenticated ? (
+              <Button
+                variant="outline"
+                className="border-white/20 text-white hover:bg-white/10"
+                onClick={() => {
+                  logout();
+                  navigate("/login");
+                }}
+              >
+                <LogOut className="h-4 w-4" />
+                Logout
+              </Button>
+            ) : (
+              <Button asChild variant="secondary" className="text-[#0b225f] bg-white hover:bg-white/90">
+                <Link to="/login">
+                  <LogIn className="h-4 w-4" />
+                  Login
+                </Link>
+              </Button>
+            )}
+          </nav>
         </div>
       </header>
       <main className="flex-1 transition-opacity duration-300">
