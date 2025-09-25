@@ -1,4 +1,10 @@
-import { Link, NavLink, Outlet, useLocation, useNavigate } from "react-router-dom";
+import {
+  Link,
+  NavLink,
+  Outlet,
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
 import { Flame, LayoutDashboard, LogIn, LogOut } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -56,7 +62,11 @@ export default function AppLayout() {
                 Logout
               </Button>
             ) : (
-              <Button asChild variant="secondary" className="text-[#0b225f] bg-white hover:bg-white/90">
+              <Button
+                asChild
+                variant="secondary"
+                className="text-[#0b225f] bg-white hover:bg-white/90"
+              >
                 <Link to="/login">
                   <LogIn className="h-4 w-4" />
                   Login
